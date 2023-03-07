@@ -210,6 +210,11 @@ namespace Intensity_Conc_CompareTool.Resources
                     i++;
                 }
                 analyteList = analyteList.TrimStart(',');
+                analyteList = analyteList.Replace("ppb", "");
+                analyteList = analyteList.Replace("ppt", "");
+                analyteList = analyteList.Replace("ppm", "");
+                analyteList = analyteList.Replace("\r", "");
+                analyteList = analyteList.Replace("\n", "");
 
                 return analyteList;
             }
