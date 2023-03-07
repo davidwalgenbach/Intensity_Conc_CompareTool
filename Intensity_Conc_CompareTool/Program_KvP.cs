@@ -274,10 +274,16 @@ namespace Intensity_Conc_CompareTool
                     int i = 13;
                     while (i < csv.HeaderRecord.Count() - 4)
                     {
-                        row.Add(new KeyValuePair<string, string>(csv.HeaderRecord[i], csv.GetField(csv.HeaderRecord[i])));
+                        if (csv.GetField(csv.HeaderRecord[4]) != "Known Concentration" && csv.GetField(csv.HeaderRecord[4]) != "BEC" && csv.GetField(csv.HeaderRecord[4]) != "Concentration Recovery (%)")
+                        {
+                            row.Add(new KeyValuePair<string, string>(csv.HeaderRecord[i], csv.GetField(csv.HeaderRecord[i])));
+                        }
                         i++;
                     }
-                    rowList.Add(row);
+                    if (csv.GetField(csv.HeaderRecord[4]) != "Known Concentration" && csv.GetField(csv.HeaderRecord[4]) != "BEC" && csv.GetField(csv.HeaderRecord[4]) != "Concentration Recovery (%)")
+                    {
+                        rowList.Add(row);
+                    }
                 }
                 return rowList;
             }
