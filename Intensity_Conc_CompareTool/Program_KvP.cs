@@ -10,7 +10,8 @@ namespace Intensity_Conc_CompareTool
 {
     internal class Program_KvP
     {
-        public static string intensityCSVFileLocation = @"Resources\Intensities_WithDetails_011723092726.csv";
+        //public static string intensityCSVFileLocation = @"Resources\Intensities_WithDetails_011723092726.csv";
+        public static string intensityCSVFileLocation = "C:\\Users\\dwalgenbach\\Documents\\Resources\\intensitiesLEL.csv";
         public static string concentrationCSVFileLocation = @"Resources\Concentrations_WithDetails_011723092726.csv";
 
 
@@ -86,10 +87,18 @@ namespace Intensity_Conc_CompareTool
                 int i = 13;
                 while (i < csv.HeaderRecord.Count() - 4)
                 {
-                    analyteList = analyteList + ',' + '"' + csv.HeaderRecord[i] + '"';
+                    if (!csv.HeaderRecord[14].Contains("["))
+                    {
+                        analyteList = analyteList + ',' + '"' + csv.HeaderRecord[i] + " [ " + " ]" + '"';
+                    }
+                    else
+                    {
+                        analyteList = analyteList + ',' + '"' + csv.HeaderRecord[i] + '"';
+                    }
                     i++;
                 }
                 analyteList = analyteList.TrimStart(',');
+                //analyteList = analyteList.Replace("\\", "");
 
                 return analyteList;
             }

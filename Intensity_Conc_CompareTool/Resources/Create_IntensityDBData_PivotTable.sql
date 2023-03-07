@@ -12,8 +12,6 @@
 	PIVOT (
 			Max(Intensity)
 			FOR Analyte IN (
-			--{0} refers to analyte list since this is not a stored procedure. (C# string builder stuff) 
-			-- this will change to a declared variable as soon as this is made a stored procedure. 
 					{0}
 				)
 	) AS pivot_table1
@@ -32,8 +30,6 @@
 	PIVOT (
 			Max(Replicate1)
 			FOR Analyte IN (
-			--{0} refers to analyte list since this is not a stored procedure. (C# string builder stuff) 
-			-- this will change to a declared variable as soon as this is made a stored procedure. 
 					{0}
 				)
 	) AS pivot_table2
@@ -52,8 +48,6 @@
 	PIVOT (
 			Max(Replicate2)
 			FOR Analyte IN (
-			--{0} refers to analyte list since this is not a stored procedure. (C# string builder stuff) 
-			-- this will change to a declared variable as soon as this is made a stored procedure. 
 					{0}
 				)
 	) AS pivot_table3
@@ -72,8 +66,6 @@
 	PIVOT (
 			Max(Replicate3)
 			FOR Analyte IN (
-			--{0} refers to analyte list since this is not a stored procedure. (C# string builder stuff) 
-			-- this will change to a declared variable as soon as this is made a stored procedure. 
 					{0}
 				)
 	) AS pivot_table4
@@ -87,14 +79,12 @@
 	  ,[Description]
 	  ,[TraxId]
 	  ,[Mass]+' '+[Analyte] + ' ' + '[ ' +  [Mode] + ' ]' AS Analyte
-	  ,ROUND(TRY_CAST([RSD] AS FLOAT), 2) AS RSD FROM [PLASMATRAX].[dbo].[SEQUENCE_DATA] WHERE Analysis = {1}
+	  ,ROUND(TRY_CAST([RSD] AS FLOAT), 2) AS RSD FROM [PLASMATRAX].[dbo].[SEQUENCE_DATA] WHERE Analysis = {1} 
 	) basetable
 	PIVOT (
 			Max(RSD)
 			FOR Analyte IN (
-			--{0} refers to analyte list since this is not a stored procedure. (C# string builder stuff) 
-			-- this will change to a declared variable as soon as this is made a stored procedure. 
 					{0}
 				)
 	) AS pivot_table5 
-	ORDER BY [Description], n
+	ORDER BY [Index], n
