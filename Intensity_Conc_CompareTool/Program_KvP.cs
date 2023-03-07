@@ -106,14 +106,21 @@ namespace Intensity_Conc_CompareTool
                 {
                     while (e1.MoveNext() && e2.MoveNext())
                     {
-                        if (e1.Current.Value.Equals(e2.Current.Value))
+                        try
                         {
-                            equal = true;
-                            continue;
+                            if (Double.Parse(e1.Current.Value).Equals(Double.Parse(e2.Current.Value)))
+                            {
+                                equal = true;
+                                continue;
+                            }
+                            else
+                            {
+                                return false;
+                            }
                         }
-                        else
+                        catch (Exception e)
                         {
-                            if (e1.Current.Value == "NaN" && e2.Current.Value == null)
+                            if (e1.Current.Value == "NaN" && e2.Current.Value == "")
                             {
                                 continue;
                             }
