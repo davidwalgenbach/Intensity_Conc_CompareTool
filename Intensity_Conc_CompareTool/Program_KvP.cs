@@ -54,11 +54,11 @@ namespace Intensity_Conc_CompareTool
         }
 
         //Gets Analysis ID from CSV to be used in SQL Query to create Pivot tables
-        public static string getAnalysisID_fromCSV()
+        public static string getAnalysisID_fromCSV(string CSVFileLocation)
         {
             string analysisID = "";
 
-            using (var reader = new StreamReader(intensityCSVFileLocation))
+            using (var reader = new StreamReader(CSVFileLocation))
             using (var csv = new CsvReader(reader, System.Globalization.CultureInfo.CurrentCulture))
             {
                 csv.Read();
@@ -72,11 +72,11 @@ namespace Intensity_Conc_CompareTool
         }
 
         //Gets list of Analytes to be inserted into SQL Query to create Pivot tables
-        public static string getAnalyteList_fromCSV()
+        public static string getAnalyteList_fromCSV(string CSVFileLocation)
         {
             string analyteList = "";
 
-            using (var reader = new StreamReader(intensityCSVFileLocation))
+            using (var reader = new StreamReader(CSVFileLocation))
             using (var csv = new CsvReader(reader, System.Globalization.CultureInfo.CurrentCulture))
             {
                 List<List<KeyValuePair<string, string>>> rowList = new List<List<KeyValuePair<string, string>>>();
@@ -193,7 +193,7 @@ namespace Intensity_Conc_CompareTool
             {
                 using (SqlConnection connection = new SqlConnection("Server=plasmatraxDB\\PLASMATRAXQA;Database=PLASMATRAX;Trusted_Connection=True"))
                 {
-                    using (SqlCommand command = new SqlCommand(string.Format(File.ReadAllText("Resources\\Create_IntensityDBData_PivotTable.sql"), getAnalyteList_fromCSV(), getAnalysisID_fromCSV()), connection))
+                    using (SqlCommand command = new SqlCommand(string.Format(File.ReadAllText("Resources\\Create_IntensityDBData_PivotTable.sql"), getAnalyteList_fromCSV(intensityCSVFileLocation), getAnalysisID_fromCSV(intensityCSVFileLocation)), connection))
                     {
                         connection.Open();
                         SqlDataReader reader = command.ExecuteReader();
@@ -229,7 +229,7 @@ namespace Intensity_Conc_CompareTool
             {
                 using (SqlConnection connection = new SqlConnection("Server=plasmatraxDB\\PLASMATRAXQA;Database=PLASMATRAX;Trusted_Connection=True"))
                 {
-                    using (SqlCommand command = new SqlCommand(File.ReadAllText("Resources\\Create_ConcentrationDBData_PivotTable.sql"), connection))
+                    using (SqlCommand command = new SqlCommand(string.Format(File.ReadAllText("Resources\\Create_ConcentrationDBData_PivotTable.sql"), getAnalyteList_fromCSV(concentrationCSVFileLocation), getAnalysisID_fromCSV(concentrationCSVFileLocation)), connection))
                     {
                         connection.Open();
                         SqlDataReader reader = command.ExecuteReader();
