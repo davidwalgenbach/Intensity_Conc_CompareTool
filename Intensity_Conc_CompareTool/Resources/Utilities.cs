@@ -60,8 +60,8 @@ namespace Intensity_Conc_CompareTool.Resources
             }
         }
 
-        //Compares actual key value pair data
-        public static bool compareListContents(List<List<KeyValuePair<string, string>>> CSVData, List<List<KeyValuePair<string, string>>> DBData)
+        //Compares actual Intensity key value pair data
+        public static bool compareIntensityListContents(List<List<KeyValuePair<string, string>>> CSVData, List<List<KeyValuePair<string, string>>> DBData)
         {
             bool equal = new bool();
 
@@ -82,6 +82,55 @@ namespace Intensity_Conc_CompareTool.Resources
                             else
                             {
                                 return false;
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            if (e1.Current.Value == "NaN" && e2.Current.Value == "")
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return equal;
+        }
+
+        //Compares actual Concentration key value pair data
+        public static bool compareConcListContents(List<List<KeyValuePair<string, string>>> CSVData, List<List<KeyValuePair<string, string>>> DBData)
+        {
+            bool equal = new bool();
+
+            for (int i = 0; i < CSVData.Count; i++)
+            {
+                using (var e1 = CSVData[i].GetEnumerator())
+                using (var e2 = DBData[i].GetEnumerator())
+                {
+                    while (e1.MoveNext() && e2.MoveNext())
+                    {
+                        try
+                        {
+                            if (Math.Abs(Double.Parse(e1.Current.Value)-Double.Parse(e2.Current.Value)) < 0.0005)
+                            {
+                                equal = true;
+                                continue;
+                            }
+                            else
+                            {
+                                if (e1.Current.Value == "NaN" && e2.Current.Value == "0")
+                                {
+                                    equal = true;
+                                    continue;
+                                }
+                                else
+                                {
+                                    return false;
+                                }
                             }
                         }
                         catch (Exception e)

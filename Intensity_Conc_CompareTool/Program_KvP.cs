@@ -13,6 +13,13 @@ namespace Intensity_Conc_CompareTool
     {
         static void Main(string[] args)
         {
+            //May need two file watchers. One for ConcentrationCSV and one for IntensityCSV
+            FileSystemWatcher watcher = new FileSystemWatcher();
+            watcher.Path = @"C:\ExportFiles";
+            watcher.EnableRaisingEvents = true;
+            watcher.Filter = "*.csv";
+            watcher.Created += new FileSystemEventHandler(watcher_OnCreated);
+
             bool intensityListMatch = new bool();
             bool concentrationListMatch = new bool();
 
@@ -28,7 +35,7 @@ namespace Intensity_Conc_CompareTool
             if (intensityListLengthMatch == true)
             {
                 Utilities.sortLists(intensityCSVData, intensityDBData);
-                intensityListMatch = Utilities.compareListContents(intensityCSVData, intensityDBData);
+                intensityListMatch = Utilities.compareIntensityListContents(intensityCSVData, intensityDBData);
             }
             else
             {
@@ -38,7 +45,7 @@ namespace Intensity_Conc_CompareTool
             if (concentrationListLengthMatch == true)
             {
                 Utilities.sortLists(concentrationCSVData, concentrationDBData);
-                concentrationListMatch = Utilities.compareListContents(concentrationCSVData, concentrationDBData);
+                concentrationListMatch = Utilities.compareConcListContents(concentrationCSVData, concentrationDBData);
             }
             else
             {
@@ -48,6 +55,15 @@ namespace Intensity_Conc_CompareTool
             Console.WriteLine("Intensity Comparison evaluation (False = Failed. True = Success): " + intensityListMatch.ToString());
 
             Console.WriteLine("Concentration Comparison evaluation (False = Failed. True = Success): " + concentrationListMatch.ToString());
+
+            Console.WriteLine("Press enter to exit.");
+            Console.ReadLine();
+        }
+
+        private static void watcher_OnCreated(object source, FileSystemEventArgs e)
+        {
+            FileInfo file = new FileInfo(e.FullPath);
+            Console.WriteLine(file.Name);
         }
     }
 }
