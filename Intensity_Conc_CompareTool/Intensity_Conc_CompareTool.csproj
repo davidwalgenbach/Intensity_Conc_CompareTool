@@ -11,22 +11,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Resources\Concentrations_022823185814.csv">
+    <None Update="Resources\SQL Scripts\Create_ConcentrationDBData_PivotTable.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\Concentrations_WithDetails_011723092726.csv">
+    <None Update="Resources\SQL Scripts\Create_IntensityDBData_PivotTable.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\Create_ConcentrationDBData_PivotTable.sql">
+    <None Update="Resources\Testing CSV Files\Concentrations_022823185814.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\Create_IntensityDBData_PivotTable.sql">
+    <None Update="Resources\Testing CSV Files\Concentrations_WithDetails_011723092726.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\Intensities_022823185814.csv">
+    <None Update="Resources\Testing CSV Files\Intensities_022823185814.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\Intensities_WithDetails_011723092726.csv">
+    <None Update="Resources\Testing CSV Files\Intensities_WithDetails_011723092726.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
