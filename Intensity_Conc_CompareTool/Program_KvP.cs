@@ -57,7 +57,6 @@ namespace Intensity_Conc_CompareTool
             Console.WriteLine("If you would like to continue, drop another CSV file into the directory: C:\\ExportFiles.");
             Console.WriteLine("Concentration Exports should be named Concentrations.csv, Intensity Exports should be named Intensities.csv");
             Console.WriteLine("Press Enter to Exit the program." + "\n");
-            Console.ReadLine();
         }
 
         public static void compareConc()
@@ -84,7 +83,6 @@ namespace Intensity_Conc_CompareTool
             Console.WriteLine("If you would like to continue, drop another CSV file into the directory: C:\\ExportFiles.");
             Console.WriteLine("Concentration Exports should be named Concentrations.csv, Intensity Exports should be named Intensities.csv");
             Console.WriteLine("Press Enter to Exit the program." + "\n");
-            Console.ReadLine();
         }
 
         private static void intensity_watcher_OnCreated(object source, FileSystemEventArgs e)

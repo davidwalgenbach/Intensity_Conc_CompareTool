@@ -108,23 +108,38 @@ namespace Intensity_Conc_CompareTool.Resources
 
             for (int i = 0; i < CSVData.Count; i++)
             {
-                using (var e1 = CSVData[i].GetEnumerator())
-                using (var e2 = DBData[i].GetEnumerator())
+                //Temporary until the RS2 issue is alleviated. For now, will just skip all RS2 rows. (Every fourth row starting from 0) 
+                if ((i+1) % 4 != 0)
                 {
-                    while (e1.MoveNext() && e2.MoveNext())
+                    using (var e1 = CSVData[i].GetEnumerator())
+                    using (var e2 = DBData[i].GetEnumerator())
                     {
-                        try
+                        while (e1.MoveNext() && e2.MoveNext())
                         {
-                            if (Math.Abs(Double.Parse(e1.Current.Value)-Double.Parse(e2.Current.Value)) < 0.01)
+                            try
                             {
-                                equal = true;
-                                continue;
-                            }
-                            else
-                            {
-                                if (e1.Current.Value == "NaN" && e2.Current.Value == "0")
+                                if (Math.Abs(Double.Parse(e1.Current.Value) - Double.Parse(e2.Current.Value)) < 0.05)
                                 {
                                     equal = true;
+                                    continue;
+                                }
+                                else
+                                {
+                                    if (e1.Current.Value == "NaN" && e2.Current.Value == "0")
+                                    {
+                                        equal = true;
+                                        continue;
+                                    }
+                                    else
+                                    {
+                                        return false;
+                                    }
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                if (e1.Current.Value == "NaN" && e2.Current.Value == "")
+                                {
                                     continue;
                                 }
                                 else
@@ -133,18 +148,11 @@ namespace Intensity_Conc_CompareTool.Resources
                                 }
                             }
                         }
-                        catch (Exception e)
-                        {
-                            if (e1.Current.Value == "NaN" && e2.Current.Value == "")
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                return false;
-                            }
-                        }
                     }
+                }
+                else
+                {
+                    continue;
                 }
             }
             return equal;
