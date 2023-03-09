@@ -115,7 +115,7 @@ namespace Intensity_Conc_CompareTool.Resources
                     {
                         try
                         {
-                            if (Math.Abs(Double.Parse(e1.Current.Value)-Double.Parse(e2.Current.Value)) < 0.0005)
+                            if (Math.Abs(Double.Parse(e1.Current.Value)-Double.Parse(e2.Current.Value)) < 0.01)
                             {
                                 equal = true;
                                 continue;

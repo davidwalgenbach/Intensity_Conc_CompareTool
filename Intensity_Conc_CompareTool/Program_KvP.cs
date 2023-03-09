@@ -14,23 +14,33 @@ namespace Intensity_Conc_CompareTool
         static void Main(string[] args)
         {
             //May need two file watchers. One for ConcentrationCSV and one for IntensityCSV
-            FileSystemWatcher watcher = new FileSystemWatcher();
-            watcher.Path = @"C:\ExportFiles";
-            watcher.EnableRaisingEvents = true;
-            watcher.Filter = "*.csv";
-            watcher.Created += new FileSystemEventHandler(watcher_OnCreated);
+            FileSystemWatcher intensity_watcher = new FileSystemWatcher();
+            intensity_watcher.Path = @"C:\ExportFiles";
+            intensity_watcher.EnableRaisingEvents = true;
+            intensity_watcher.Filter = "Intensities.csv";
+            intensity_watcher.Created += new FileSystemEventHandler(intensity_watcher_OnCreated);
 
+            FileSystemWatcher conc_watcher = new FileSystemWatcher();
+            conc_watcher.Path = @"C:\ExportFiles";
+            conc_watcher.EnableRaisingEvents = true;
+            conc_watcher.Filter = "Concentrations.csv";
+            conc_watcher.Created += new FileSystemEventHandler(conc_watcher_OnCreated);
+
+            Console.WriteLine("Please drop CSV files to be validated in the directory: C:\\ExportFiles.");
+            Console.WriteLine("Concentration Exports should be named Concentrations.csv, Intensity Exports should be named Intensities.csv");
+            Console.WriteLine("Press Enter to Exit the program." + "\n");
+            Console.ReadLine();
+
+        }
+
+        public static void compareIntensity()
+        {
             bool intensityListMatch = new bool();
-            bool concentrationListMatch = new bool();
 
             List<List<KeyValuePair<string, string>>> intensityCSVData = DataProvider.Instance.getIntensityCSVData();
             List<List<KeyValuePair<string, string>>> intensityDBData = DataProvider.Instance.getIntensityDBData();
 
-            List<List<KeyValuePair<string, string>>> concentrationCSVData = DataProvider.Instance.getConcentrationCSVData();
-            List<List<KeyValuePair<string, string>>> concentrationDBData = DataProvider.Instance.getConcentrationDBData();
-
             bool intensityListLengthMatch = Utilities.compareListLength(intensityCSVData, intensityDBData);
-            bool concentrationListLengthMatch = Utilities.compareListLength(concentrationCSVData, concentrationDBData);
 
             if (intensityListLengthMatch == true)
             {
@@ -42,6 +52,23 @@ namespace Intensity_Conc_CompareTool
                 Console.WriteLine("Intensity Lists are not matching. Further comparisons will not execute.");
             }
 
+            Console.WriteLine("Intensity Comparison evaluation (False = Failed. True = Success): " + intensityListMatch.ToString() + "\n");
+
+            Console.WriteLine("If you would like to continue, drop another CSV file into the directory: C:\\ExportFiles.");
+            Console.WriteLine("Concentration Exports should be named Concentrations.csv, Intensity Exports should be named Intensities.csv");
+            Console.WriteLine("Press Enter to Exit the program." + "\n");
+            Console.ReadLine();
+        }
+
+        public static void compareConc()
+        {
+            bool concentrationListMatch = new bool();
+
+            List<List<KeyValuePair<string, string>>> concentrationCSVData = DataProvider.Instance.getConcentrationCSVData();
+            List<List<KeyValuePair<string, string>>> concentrationDBData = DataProvider.Instance.getConcentrationDBData();
+
+            bool concentrationListLengthMatch = Utilities.compareListLength(concentrationCSVData, concentrationDBData);
+
             if (concentrationListLengthMatch == true)
             {
                 Utilities.sortLists(concentrationCSVData, concentrationDBData);
@@ -52,18 +79,28 @@ namespace Intensity_Conc_CompareTool
                 Console.WriteLine("Concentration Lists are not matching. Further comparisons will not execute.");
             }
 
-            Console.WriteLine("Intensity Comparison evaluation (False = Failed. True = Success): " + intensityListMatch.ToString());
+            Console.WriteLine("Concentration Comparison evaluation (False = Failed. True = Success): " + concentrationListMatch.ToString() + "\n");
 
-            Console.WriteLine("Concentration Comparison evaluation (False = Failed. True = Success): " + concentrationListMatch.ToString());
-
-            Console.WriteLine("Press enter to exit.");
+            Console.WriteLine("If you would like to continue, drop another CSV file into the directory: C:\\ExportFiles.");
+            Console.WriteLine("Concentration Exports should be named Concentrations.csv, Intensity Exports should be named Intensities.csv");
+            Console.WriteLine("Press Enter to Exit the program." + "\n");
             Console.ReadLine();
         }
 
-        private static void watcher_OnCreated(object source, FileSystemEventArgs e)
+        private static void intensity_watcher_OnCreated(object source, FileSystemEventArgs e)
         {
             FileInfo file = new FileInfo(e.FullPath);
-            Console.WriteLine(file.Name);
+            Console.WriteLine(e.FullPath);
+            DataProvider.Instance.intensityCSVFileLocation = e.FullPath;
+            compareIntensity();
+        }
+
+        private static void conc_watcher_OnCreated(object source, FileSystemEventArgs e)
+        {
+            FileInfo file = new FileInfo(e.FullPath);
+            Console.WriteLine(e.FullPath);
+            DataProvider.Instance.concentrationCSVFileLocation = e.FullPath;
+            compareConc();
         }
     }
 }

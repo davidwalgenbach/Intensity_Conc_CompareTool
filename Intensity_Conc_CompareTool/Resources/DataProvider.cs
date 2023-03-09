@@ -15,13 +15,37 @@ namespace Intensity_Conc_CompareTool.Resources
         private static readonly object padlock = new object();
 
         //Contains a Mode - Ran on an instrument
-        public static string intensityCSVFileLocation = @"Resources\Testing CSV Files\Intensities_WithDetails_011723092726.csv";
+        public static string _intensityCSVFileLocation = @"Resources\Testing CSV Files\Intensities_WithDetails_011723092726.csv";
         //Does not contain a Mode - Ran using 5 Second Timer
         //public static string intensityCSVFileLocation = "C:\\Users\\dwalgenbach\\Documents\\Resources\\intensitiesLEL.csv";
-        public static string concentrationCSVFileLocation = @"Resources\Testing CSV Files\Concentrations_WithDetails_011723092726.csv";
+        public static string _concentrationCSVFileLocation = @"C:\Users\dwalgenbach\Documents\concentrationsWDetails.csv";
 
         private DataProvider()
         {
+        }
+
+        public string intensityCSVFileLocation
+        {
+            get
+            {
+                return _intensityCSVFileLocation;
+            }
+            set
+            {
+                _intensityCSVFileLocation = value;
+            }
+        }
+
+        public string concentrationCSVFileLocation
+        {
+            get
+            {
+                return _concentrationCSVFileLocation;
+            }
+            set
+            {
+                _concentrationCSVFileLocation = value;
+            }
         }
 
         //Reads in Intensity Data Rows from input CSV
