@@ -96,6 +96,13 @@ namespace Intensity_Conc_CompareTool.Resources
                 csv.ReadHeader();
                 while (csv.Read())
                 {
+                    //Skip No Cal Blank rows as they always evaluate to 0
+                    if (csv.GetField(csv.HeaderRecord[3]) == "No Cal Blk")
+                    {
+                        csv.Read();
+                        csv.Read();
+                    }
+
                     var row = new List<KeyValuePair<string, string>>();
 
                     int i = 13;

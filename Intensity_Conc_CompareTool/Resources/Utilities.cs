@@ -108,7 +108,6 @@ namespace Intensity_Conc_CompareTool.Resources
 
             for (int i = 0; i < CSVData.Count; i++)
             {
-                //Temporary until the RS2 issue is alleviated. For now, will just skip all RS2 rows. (Every fourth row starting from 0) 
                 if ((i+1) % 4 != 0)
                 {
                     using (var e1 = CSVData[i].GetEnumerator())
@@ -118,6 +117,7 @@ namespace Intensity_Conc_CompareTool.Resources
                         {
                             try
                             {
+                                //Tolerance value of 0.05
                                 if (Math.Abs(Double.Parse(e1.Current.Value) - Double.Parse(e2.Current.Value)) < 0.05)
                                 {
                                     equal = true;
@@ -150,9 +150,49 @@ namespace Intensity_Conc_CompareTool.Resources
                         }
                     }
                 }
+                //Runs for RS2 rows
                 else
                 {
-                    continue;
+                    using (var e1 = CSVData[i].GetEnumerator())
+                    using (var e2 = DBData[i].GetEnumerator())
+                    {
+                        while (e1.MoveNext() && e2.MoveNext())
+                        {
+                            try
+                            {
+                                //Square DB value because RS2 column in DB is not actually R squared. Its just R.
+                                //Tolerance value of 0.05
+                                if (Math.Abs(Double.Parse(e1.Current.Value) - Math.Pow((Double.Parse(e2.Current.Value)), 2)) < 0.05)
+                                {
+                                    equal = true;
+                                    continue;
+                                }
+                                else
+                                {
+                                    if (e1.Current.Value == "NaN" && e2.Current.Value == "0")
+                                    {
+                                        equal = true;
+                                        continue;
+                                    }
+                                    else
+                                    {
+                                        return false;
+                                    }
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                if (e1.Current.Value == "NaN" && e2.Current.Value == "")
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    return false;
+                                }
+                            }
+                        }
+                    }
                 }
             }
             return equal;

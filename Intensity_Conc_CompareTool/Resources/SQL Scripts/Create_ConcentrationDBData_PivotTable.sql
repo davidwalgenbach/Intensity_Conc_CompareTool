@@ -7,7 +7,7 @@
 	  ,[Description]
 	  ,[TraxId]
 	  ,[Mass]+' '+[Analyte] + ' ' + '[ ' +  [Mode] + ' ]' AS Analyte
-	  ,[Concentration]  FROM [PLASMATRAX].[dbo].[SEQUENCE_DATA] WHERE Analysis = {1} 
+	  ,[Concentration]  FROM [PLASMATRAX].[dbo].[SEQUENCE_DATA] WHERE [Description] != 'No Cal Blk' AND Analysis = {1} 
 	) basetable
 	PIVOT (
 			Max(Concentration)
@@ -25,7 +25,7 @@
 	  ,[Description]
 	  ,[TraxId]
 	  ,[Mass]+' '+[Analyte] + ' ' + '[ ' +  [Mode] + ' ]' AS Analyte
-	  ,[Slope] FROM [PLASMATRAX].[dbo].[SEQUENCE_DATA] WHERE Analysis = {1} 
+	  ,[Slope] FROM [PLASMATRAX].[dbo].[SEQUENCE_DATA] WHERE [Description] != 'No Cal Blk' AND Analysis = {1} 
 	) basetable
 	PIVOT (
 			Max(Slope)
@@ -43,7 +43,7 @@
 	  ,[Description]
 	  ,[TraxId]
 	  ,[Mass]+' '+[Analyte] + ' ' + '[ ' +  [Mode] + ' ]' AS Analyte
-	  ,[Intercept]  FROM [PLASMATRAX].[dbo].[SEQUENCE_DATA] WHERE Analysis = {1} 
+	  ,[Intercept]  FROM [PLASMATRAX].[dbo].[SEQUENCE_DATA] WHERE [Description] != 'No Cal Blk' AND Analysis = {1} 
 	) basetable
 	PIVOT (
 			Max(Intercept)
@@ -61,7 +61,7 @@
 	  ,[Description]
 	  ,[TraxId]
 	  ,[Mass]+' '+[Analyte] + ' ' + '[ ' +  [Mode] + ' ]' AS Analyte
-	  ,[RS2]  FROM [PLASMATRAX].[dbo].[SEQUENCE_DATA] WHERE Analysis = {1} 
+	  ,[RS2]  FROM [PLASMATRAX].[dbo].[SEQUENCE_DATA] WHERE [Description] != 'No Cal Blk' AND Analysis = {1} 
 	) basetable
 	PIVOT (
 			Max(RS2)
